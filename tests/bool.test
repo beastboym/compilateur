@@ -1,1 +1,1 @@
-a = true;
+var a = 3;
