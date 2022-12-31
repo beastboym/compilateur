@@ -1,19 +1,17 @@
 module Syntax = struct
   type expr =
-    | Int of { value: int
-             ; pos: Lexing.position }
-    | Bool of { value: bool
-              ; pos: Lexing.position }  
-    | Var of { name: string
-              ; pos: Lexing.position }  
+    | Int of { value: int ; pos: Lexing.position }
+    | Bool of { value: bool ; pos: Lexing.position }  
+    | Var of { name: string ; pos: Lexing.position } 
+    | Add of { left: expr; right: expr; pos: Lexing.position }
+    | Sub of { left: expr; right: expr; pos: Lexing.position }
+    | Mul of { left: expr; right: expr; pos: Lexing.position }
+    | Div of { left: expr; right: expr; pos: Lexing.position }
+    
 
   type instr = 
     | DeclVar of { name: string ; pos: Lexing.position}
-    | Assign of {
-        var: string
-      ; expr: expr
-      ; pos: Lexing.position
-      }
+    | Assign of { var: string ; expr: expr ; pos: Lexing.position }
   type block = instr list
 end
 
@@ -22,10 +20,16 @@ module IR = struct
     | Int of int
     | Bool of bool
     | Var of string
+    | Add of expr * expr
+    | Sub of expr * expr
+    | Mul of expr * expr
+    | Div of expr * expr
+
 
   type instr = 
     | DeclVar of string
-    | Assign of string * expr
+    | Assign of string * 
+    expr
 
   type block = instr list
 end

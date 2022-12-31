@@ -19,5 +19,9 @@ rule token = parse
 | ';'             { Lsc }
 | '='             { Leq }
 | "var"           { Lvar }
+| '+'             { Ladd }
+| "-"             { Lsub }
+| "*"             { Lmul }
+| "/"             { Ldiv }
 | ident as id     { Lident (id)}
 | _ as c          { raise (Error c) }

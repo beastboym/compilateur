@@ -12,7 +12,13 @@ let rec analyze_expr expr env =
     if not (Env.mem v.name env ) then 
       raise (Error ("unbound variable: " ^ v.name, v.pos));
     Var v.name
+  | Syntax.Add x -> Add ((analyze_expr x.left env), (analyze_expr x.right env))
+  | Syntax.Sub x -> Sub ((analyze_expr x.left env), (analyze_expr x.right env))
+  | Syntax.Mul x -> Mul ((analyze_expr x.left env), (analyze_expr x.right env))
+  | Syntax.Div x -> Div ((analyze_expr x.left env), (analyze_expr x.right env))
 
+
+  
   let rec analyze_instr instr env =
     match instr with
     | Syntax.DeclVar dv -> 

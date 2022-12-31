@@ -14,7 +14,24 @@ let rec compile_expr e env =
   | Int n  -> [ Li (V0, n) ]
   | Bool b -> [Li (V0, if b then 1 else 0)] 
   | Var v -> [Lw (V0,Env.find v env)] 
-  
+  | Add (left, right) ->
+    let left_instrs = compile_expr left env in
+    let right_instrs = compile_expr right env in
+    left_instrs @ right_instrs @ [ Add (V0, V0, V1) ]
+  | Sub (left, right) ->
+    let left_instrs = compile_expr left env in
+    let right_instrs = compile_expr right env in
+    left_instrs @ right_instrs @ [ Sub (V0, V0, V1) ]
+  | Mul (left, right) ->
+    let left_instrs = compile_expr left env in
+    let right_instrs = compile_expr right env in
+    left_instrs @ right_instrs @ [ Mul (V0, V0, V1) ]
+| Div (left, right) ->
+    let left_instrs = compile_expr left env in
+    let right_instrs = compile_expr right env in
+    left_instrs @ right_instrs @ [ Div (V0, V0, V1) ]
+
+
 let compile_instr instr info = 
   match instr with 
   | DeclVar v -> 

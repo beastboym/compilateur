@@ -3,11 +3,13 @@
   open Ast.Syntax
 %}
 
+
 %token <int> Lint
 %token <bool> Ltrue
 %token <bool> Lfalse
 %token <string> Lident
-%token Lsc Lend Lvar Leq
+%token Lsc Lend Lvar Leq Ladd Lsub Lmul Ldiv
+
 
 %start prog
 
@@ -51,4 +53,12 @@ expr:
 | b = Ltrue  { Bool { value = b ; pos = $startpos(b)} }
 | b = Lfalse { Bool { value = b ; pos = $startpos(b)} }
 | v = Lident { Var { name = v ; pos = $startpos(v)} }
+| expr; Ladd; expr { Add { left = $1; right = $3; pos = $startpos($2) } }
+| expr; Lsub; expr { Sub { left = $1; right = $3; pos = $startpos($2) } }
+| expr; Lmul; expr { Mul { left = $1; right = $3; pos = $startpos($2) } }
+| expr; Ldiv; expr { Div { left = $1; right = $3; pos = $startpos($2) } }
+
+// | left=expr; Ladd; right=expr { Add { left=left; right=right; pos = $startpos() } }
+
+
 ;
